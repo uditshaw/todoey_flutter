@@ -11,8 +11,38 @@ class AddTaskScreen extends StatelessWidget {
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(30), topLeft: Radius.circular(30))),
         child: Center(
-          child: Column(
-            children: [Text('Add Task')],
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Add Task',
+                  textAlign: TextAlign.center,
+                  style:
+                      TextStyle(color: Colors.lightBlue.shade300, fontSize: 30),
+                ),
+                TextField(
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: null,
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(2),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.lightBlue.shade300),
+                  ),
+                  child: Text(
+                    'Add',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
