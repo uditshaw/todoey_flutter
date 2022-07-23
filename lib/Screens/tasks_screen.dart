@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
-
 import '../Widgets/tasks_list.dart';
+import '../models/task.dart';
 import 'add_task_screen.dart';
 
-class TasksScreen extends StatelessWidget {
-  Widget buildBottomSheet(BuildContext context) => AddTaskScreen();
+class TasksScreen extends StatefulWidget {
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  Widget buildBottomSheet(BuildContext context) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context)
+                  .viewInsets
+                  .bottom), // For placing the Widget above the keyboard.
+          child: AddTaskScreen((newTaskTitle) {
+            // Main callback for AddTaskScreen
+            print(newTaskTitle);
+            setState(() {
+              tasks.add(Task(task: newTaskTitle));
+            });
+            Navigator.pop(
+                context); // For poping out of the AddTask Screen on pressing the ADD button
+          }),
+        ),
+      );
+
+  List<Task> tasks = [
+    Task(task: 'Buy Fruits'),
+    Task(task: 'Buy Vegetables'),
+    Task(task: 'Complete Course'),
+    Task(task: 'Outscource reach'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(context: context, builder: buildBottomSheet);
+          showModalBottomSheet(
+              context: context,
+              builder: buildBottomSheet,
+              isScrollControlled: true);
         },
         backgroundColor: Colors.lightBlue.shade300,
         child: Icon(Icons.add),
@@ -39,7 +70,7 @@ class TasksScreen extends StatelessWidget {
                           fontSize: 60,
                           color: Colors.white,
                           fontWeight: FontWeight.w700)),
-                  Text('12 tasks',
+                  Text('${tasks.length} tasks',
                       style: TextStyle(color: Colors.white, fontSize: 18)),
                 ],
               ),
@@ -53,7 +84,7 @@ class TasksScreen extends StatelessWidget {
                     color: Colors.white),
                 padding:
                     EdgeInsets.only(top: 30, left: 18, right: 18, bottom: 20),
-                child: TasksList(),
+                child: TasksList(tasks: tasks),
               ),
             ),
           ],
