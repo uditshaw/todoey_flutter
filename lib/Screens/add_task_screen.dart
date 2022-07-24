@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  final Function addTaskCallback;
-  AddTaskScreen(this.addTaskCallback);
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
@@ -37,6 +37,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   textCapitalization: TextCapitalization.sentences,
                   onChanged: (text) {
                     newAddedTask = text;
+                    print(newAddedTask);
                   },
                 ),
                 SizedBox(
@@ -44,8 +45,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // print('PRINT: $newAddedTask');
-                    widget.addTaskCallback(newAddedTask);
+                    print('New Text to be added: $newAddedTask');
+                    Provider.of<TaskData>(context, listen: false)
+                        .addTask(newAddedTask);
+                    Navigator.pop(context);
                   },
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(2),

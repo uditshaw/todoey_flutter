@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
 import '../Widgets/tasks_list.dart';
-import '../models/task.dart';
 import 'add_task_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
+class TasksScreen extends StatelessWidget {
   Widget buildBottomSheet(BuildContext context) => SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
               bottom: MediaQuery.of(context)
                   .viewInsets
                   .bottom), // For placing the Widget above the keyboard.
-          child: AddTaskScreen((newTaskTitle) {
-            // Main callback for AddTaskScreen
-            print(newTaskTitle);
-            setState(() {
-              tasks.add(Task(task: newTaskTitle));
-            });
-            Navigator.pop(
-                context); // For poping out of the AddTask Screen on pressing the ADD button
-          }),
+          child: AddTaskScreen(),
         ),
       );
-
-  List<Task> tasks = [
-    Task(task: 'Buy Fruits'),
-    Task(task: 'Buy Vegetables'),
-    Task(task: 'Complete Course'),
-    Task(task: 'Outscource reach'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +51,7 @@ class _TasksScreenState extends State<TasksScreen> {
                           fontSize: 60,
                           color: Colors.white,
                           fontWeight: FontWeight.w700)),
-                  Text('${tasks.length} tasks',
+                  Text('${Provider.of<TaskData>(context).getTaskCount} tasks',
                       style: TextStyle(color: Colors.white, fontSize: 18)),
                 ],
               ),
@@ -84,7 +65,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     color: Colors.white),
                 padding:
                     EdgeInsets.only(top: 30, left: 18, right: 18, bottom: 20),
-                child: TasksList(tasks: tasks),
+                child: TasksList(),
               ),
             ),
           ],
